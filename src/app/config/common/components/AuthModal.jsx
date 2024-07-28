@@ -3,22 +3,17 @@ import React, { useState } from 'react'
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap'
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-
-import { validationObj } from '../../../validations/validationschema';
-import FormComponents from '../functions/FormComponents';
 import PropTypes from 'prop-types'
 
-const AuthModal = ({ modalState, changeAuthModal, title }) => {
+import { validationObj } from '../../../validations/validationschema';
+// import FormComponents from '../functions/FormComponents';
+import { initialObj } from '../../../validations/initialValuesSchema';
+
+const AuthModal = ({ modalState, changeAuthModal }) => {
     const [phoneNumber, setPhoneNumber] = useState();
 
     const { values, errors, handleChange, handleSubmit } = useFormik({
-        initialValues: {
-            first_name: '',
-            last_name: '',
-            email: '',
-            password: '',
-            confirm_password: '',
-        },
+        initialValues: initialObj[modalState.validation],
         validationSchema: validationObj[modalState.validation],
         onSubmit: (values) => {
             console.log('values:- ', values);
@@ -52,7 +47,12 @@ const AuthModal = ({ modalState, changeAuthModal, title }) => {
                                             name='first_name'
                                             autoComplete='false'
                                         />
-                                        {errors.first_name && <div className='form-error'>{errors.first_name}</div>}
+                                        {
+                                            errors.first_name &&
+                                            <div className='form-error'>
+                                                {errors.first_name}
+                                            </div>
+                                        }
                                     </Form.Group>
                                     <Form.Group as={Col} md="6" >
                                         <Form.Control
@@ -62,7 +62,12 @@ const AuthModal = ({ modalState, changeAuthModal, title }) => {
                                             value={values.last_name}
                                             name='last_name'
                                         />
-                                        {errors.last_name && <div className='form-error'>{errors.last_name}</div>}
+                                        {
+                                            errors.last_name &&
+                                            <div className='form-error'>
+                                                {errors.last_name}
+                                            </div>
+                                        }
                                     </Form.Group>
                                 </Row>
                                 <Row className='py-3'>
@@ -80,7 +85,12 @@ const AuthModal = ({ modalState, changeAuthModal, title }) => {
                                             value={values.email}
                                             name='email'
                                         />
-                                        {errors.email && <div className='form-error'>{errors.email}</div>}
+                                        {
+                                            errors.email &&
+                                            <div className='form-error'>
+                                                {errors.email}
+                                            </div>
+                                        }
                                     </Form.Group>
                                 </Row>
                                 <Row className="py-3">
@@ -92,7 +102,8 @@ const AuthModal = ({ modalState, changeAuthModal, title }) => {
                                             value={values.password}
                                             name='password'
                                         />
-                                        {errors.password &&
+                                        {
+                                            errors.password &&
                                             <div className='form-error'>
                                                 {errors.password}
                                             </div>
@@ -106,7 +117,8 @@ const AuthModal = ({ modalState, changeAuthModal, title }) => {
                                             value={values.confirm_password}
                                             name='confirm_password'
                                         />
-                                        {errors.confirm_password &&
+                                        {
+                                            errors.confirm_password &&
                                             <div className='form-error'>
                                                 {errors.confirm_password}
                                             </div>
@@ -118,42 +130,51 @@ const AuthModal = ({ modalState, changeAuthModal, title }) => {
                                         label="Agree to terms and conditions"
                                         feedback="You must agree before submitting."
                                         feedbackType="invalid"
+                                        name='conditions'
+                                        onChange={handleChange}
+                                        checked={values.conditions}
                                     />
+                                    {
+                                        errors.conditions &&
+                                        <div className='form-error'>
+                                            {errors.conditions}
+                                        </div>
+                                    }
                                 </Form.Group>
                             </React.Fragment>
-                            :
-                            <React.Fragment>
-                                <Row className='py-3'>
-                                    <Form.Group as={Col} md="6" >
-                                        <Form.Control
-                                            type="email"
-                                            placeholder="Email"
-                                            onChange={handleChange}
-                                            value={values.email}
-                                            name='email'
-                                        />
-                                        {errors.email &&
-                                            <div className='form-error'>
-                                                {errors.email}
-                                            </div>
-                                        }
-                                    </Form.Group>
-                                    <Form.Group as={Col} md="6">
-                                        <Form.Control
-                                            type="password"
-                                            placeholder="Password"
-                                            onChange={handleChange}
-                                            value={values.password}
-                                            name='password'
-                                        />
-                                        {errors.password &&
-                                            <div className='form-error'>
-                                                {errors.password}
-                                            </div>
-                                        }
-                                    </Form.Group>
-                                </Row>
-                            </React.Fragment>
+                            : modalState.type === 'Sign in' ?
+                                <React.Fragment>
+                                    <Row className='py-3'>
+                                        <Form.Group as={Col} md="6" >
+                                            <Form.Control
+                                                type="email"
+                                                placeholder="Email"
+                                                onChange={handleChange}
+                                                value={values.email}
+                                                name='email'
+                                            />
+                                            {errors.email &&
+                                                <div className='form-error'>
+                                                    {errors.email}
+                                                </div>
+                                            }
+                                        </Form.Group>
+                                        <Form.Group as={Col} md="6">
+                                            <Form.Control
+                                                type="password"
+                                                placeholder="Password"
+                                                onChange={handleChange}
+                                                value={values.password}
+                                                name='password'
+                                            />
+                                            {errors.password &&
+                                                <div className='form-error'>
+                                                    {errors.password}
+                                                </div>
+                                            }
+                                        </Form.Group>
+                                    </Row>
+                                </React.Fragment> : null
                     }
                 </Modal.Body>
                 <Modal.Footer>

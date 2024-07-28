@@ -1,11 +1,27 @@
-import React, { useState } from 'react'
-import { menuCategories } from '../config/config';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { categoryFindAll } from '../slice/category.slice';
 
 const Menu = () => {
-    const [selectedCategory, setSelectedCategory] = useState('All');
-    const changeCategory = (data) => {
-        setSelectedCategory(data)
+    const dispatch = useDispatch();
+    const { findAll } = useSelector((x) => x.categorySlice);
+    const [selectedCategory, setSelectedCategory] = useState('all');
+
+    useEffect(() => {
+        allMenu();
+    }, []);
+
+    function allMenu() {
+        dispatch(categoryFindAll()).unwrap().then(() => {
+        }).catch((err) => {
+            console.log('err:- ', err);
+        })
     }
+
+    const changeCategory = (data) => {
+        setSelectedCategory(data);
+    }
+
     return (
         <section className="food_section layout_padding">
             <div className="container">
@@ -15,11 +31,23 @@ const Menu = () => {
                     </h2>
                 </div>
                 <ul className="filters_menu">
+                    <li
+                        onClick={() => changeCategory('all')}
+                        data-filter={`.${'all'.toLowerCase()}`}
+                        className={selectedCategory === 'all' ? 'active' : ''}
+                    >
+                        All
+                    </li>
                     {
-                        menuCategories.map((itr) => {
+                        findAll.map(({ category }) => {
                             return (
-                                <li onClick={() => changeCategory(itr)} data-filter={`.${itr.toLowerCase()}`} className={selectedCategory === itr ? 'active' : ''} key={itr}>
-                                    {itr}
+                                <li
+                                    onClick={() => changeCategory(category)}
+                                    data-filter={`.${category.toLowerCase()}`}
+                                    className={selectedCategory === category ? 'active' : ''}
+                                    key={category}
+                                >
+                                    {category}
                                 </li>
                             )
                         })

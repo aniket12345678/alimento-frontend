@@ -11,6 +11,7 @@ const signup = yup.object().shape({
     confirm_password: yup.string()
         .oneOf([yup.ref('password'), null], 'Passwords must match')
         .required('Confirm Password'),
+    conditions: yup.boolean().oneOf([true], 'Agree to terms and conditions')
 });
 
 const signin = yup.object().shape({
