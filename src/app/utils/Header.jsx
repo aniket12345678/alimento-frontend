@@ -2,15 +2,9 @@ import React, { useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import { NavbarList } from '../config/config'
-import AuthModal from '../config/common/components/AuthModal';
 
 const Header = () => {
     const pathName = window.location.pathname;
-    const [modalState, setModalState] = useState({ show: false, type: '', validation: '' });
-
-    function changeAuthModal(params, type, validation) {
-        setModalState({ show: params, type: type, validation: validation })
-    }
     return (
         <>
             <header className="header_section" style={{ background: 'linear-gradient(-296deg, #0D0E10, gray); !important' }}>
@@ -64,36 +58,9 @@ const Header = () => {
              c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                             </g>
                                         </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
-                                        <g>
-                                        </g>
+                                        {
+                                            Array(15).map(() => <g />)
+                                        }
                                     </svg>
                                 </a>
                                 <form className="form-inline">
@@ -101,24 +68,11 @@ const Header = () => {
                                         <i className="fa fa-search" aria-hidden="true" />
                                     </button>
                                 </form>
-                                <button
-                                    className="order_online"
-                                    onClick={() => changeAuthModal(true, 'Sign up', 'validation_signup')}
-                                >
-                                    Sign up
-                                </button>
-                                <button
-                                    className="order_online"
-                                    onClick={() => changeAuthModal(true, 'Sign in', 'validation_signin')}
-                                >
-                                    Sign in
-                                </button>
                             </div>
                         </div>
                     </nav>
                 </div>
             </header>
-            <AuthModal modalState={modalState} changeAuthModal={changeAuthModal} />
         </>
     )
 }

@@ -22,9 +22,7 @@ const signin = yup.object().shape({
         .required('Enter password'),
 });
 
-const validationObj = {
+export const validationObj = {
     validation_signup: signup,
     validation_signin: signin
 }
-
-export { validationObj }
