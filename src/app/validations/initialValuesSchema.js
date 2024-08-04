@@ -12,9 +12,14 @@ const signinInitialValues = {
     password: '',
 }
 
+const emailVerifyInitialValues = {
+    email: '',
+}
+
 const initialObj = {
     validation_signup: signupInitialValues,
-    validation_signin: signinInitialValues
+    validation_signin: signinInitialValues,
+    validation_emailVerify: emailVerifyInitialValues
 }
 
 export { initialObj };

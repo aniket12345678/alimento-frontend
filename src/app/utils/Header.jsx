@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Link } from 'react-router-dom'
 import { NavbarList } from '../config/config'
 
 const Header = () => {
     const pathName = window.location.pathname;
+
     return (
         <>
             <header className="header_section" style={{ background: 'linear-gradient(-296deg, #0D0E10, gray); !important' }}>
