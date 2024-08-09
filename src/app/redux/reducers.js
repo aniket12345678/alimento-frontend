@@ -1,6 +1,7 @@
 import { combineReducers, createSlice } from "@reduxjs/toolkit";
 import { categoryFindAll } from "../slice/category.slice";
 import { authSignIn } from "../slice/auth.slice";
+import { itemFindAll } from "../slice/item.slice";
 
 const authSlice = createSlice({
     name: 'authSlice',
@@ -13,6 +14,7 @@ const authSlice = createSlice({
     },
     reducers: {
         logout: (state) => {
+            window.localStorage.clear();
             state.signin.token = null;
             state.signin.user_id = null;
             state.signin.isLoggedIn = false;
@@ -44,9 +46,43 @@ const categorySlice = createSlice({
     }
 });
 
+export const itemSlice = createSlice({
+    name: 'itemSlice',
+    initialState: {
+        findAll: []
+    },
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(itemFindAll.fulfilled, (state, action) => {
+            state.findAll = action.payload.data;
+        });
+    }
+});
+
+export const cartSlice = createSlice({
+    name: 'cartSlice',
+    initialState: {
+        cart: []
+    },
+    reducers: {
+        addItems: (state, action) => {
+            state.cart = [...state.cart, action.payload];
+        },
+        removeCartItem: (state, action) => {
+            state.cart = action.payload;
+        },
+        updateItems: (state, action) => {
+            state.cart = action.payload;
+        },
+    }
+});
+
 export const { logout } = authSlice.actions;
+export const { addItems, updateItems, removeCartItem } = cartSlice.actions;
 
 export const rootReducer = combineReducers({
     authSlice: authSlice.reducer,
-    categorySlice: categorySlice.reducer
+    categorySlice: categorySlice.reducer,
+    itemSlice: itemSlice.reducer,
+    cartSlice: cartSlice.reducer
 });

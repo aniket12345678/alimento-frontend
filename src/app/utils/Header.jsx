@@ -1,10 +1,20 @@
 import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Link } from 'react-router-dom'
+import { logout } from '../redux/reducers';
 import { NavbarList } from '../config/config'
 
 const Header = () => {
     const pathName = window.location.pathname;
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { cart } = useSelector((x) => x.cartSlice);
+
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/');
+    }
 
     return (
         <>
@@ -22,9 +32,12 @@ const Header = () => {
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav  mx-auto ">
                                 {
-                                    NavbarList.map((itr) => {
+                                    NavbarList.map((itr, index) => {
                                         return (
-                                            <li className={`nav-item ${pathName === itr.path ? 'active' : ''}`}>
+                                            <li
+                                                key={itr.path + index}
+                                                className={`nav-item ${pathName === itr.path ? 'active' : ''}`}
+                                            >
                                                 <Link className="nav-link" to={itr.path}>
                                                     {itr.title}
                                                 </Link>
@@ -34,10 +47,12 @@ const Header = () => {
                                 }
                             </ul>
                             <div className="user_option">
-                                <a href className="user_link">
-                                    <i className="fa fa-user" aria-hidden="true" />
-                                </a>
-                                <a className="cart_link" href="#">
+                                {cart.length > 0 &&
+                                    <div className='font-weight-bolder text-white cart-icon'>
+                                        {cart.length}
+                                    </div>
+                                }
+                                <Link to={'/cart'} className="cart_link">
                                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style={{ enableBackground: 'new 0 0 456.029 456.029' }} xmlSpace="preserve">
                                         <g>
                                             <g>
@@ -59,14 +74,14 @@ const Header = () => {
              c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
                                             </g>
                                         </g>
-                                        {
-                                            Array(15).map(() => <g />)
-                                        }
                                     </svg>
-                                </a>
+                                </Link>
                                 <form className="form-inline">
                                     <button className="btn  my-2 my-sm-0 nav_search-btn" type="submit">
                                         <i className="fa fa-search" aria-hidden="true" />
+                                    </button>
+                                    <button onClick={handleLogout} className="btn  my-2 my-sm-0 nav_search-btn" type='button'>
+                                        Logout
                                     </button>
                                 </form>
                             </div>

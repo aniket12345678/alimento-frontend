@@ -6,6 +6,7 @@ const API = axios.create({
 });
 
 API.interceptors.response.use(res => res, (error) => {
+    console.log('interceptor:- ',error);
     toastMessage('error', error.response.data.message);
     return error;
 })
