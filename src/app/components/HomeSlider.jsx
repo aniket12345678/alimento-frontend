@@ -14,10 +14,11 @@ const HomeSlider = () => {
     // }, []);
     console.log('counter:- ', counter);
     return (
-        < section className="slider_section " >
+        <section className="slider_section">
             <div id="customCarousel1" className="carousel slide" data-ride="carousel">
                 <div className="carousel-inner">
-                    <div className="carousel-item active">
+
+                    <div className="carousel-item">
                         <div className="container ">
                             <div className="row">
                                 <div className="col-md-7 col-lg-6 ">
@@ -80,6 +81,7 @@ const HomeSlider = () => {
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div className="container">
                     <ol className="carousel-indicators">

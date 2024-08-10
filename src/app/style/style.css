@@ -7,6 +7,16 @@ body {
   overflow-x: hidden;
 }
 
+.cart-icon {
+  position: absolute;
+  background: orange;
+  border-radius: 33px;
+  padding: 3px 9px;
+  right: 99px;
+  top: 9px;
+  font-size: 12px;
+}
+
 /*---------------------------------- Authentication ----------------------------------*/
 .auth-form .modal-content {
   background: #0D0E10;

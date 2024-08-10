@@ -1,5 +1,3 @@
-const menuCategories = ['All', 'Burger', 'Pizza', 'Pasta', 'Fries'];
-
 const NavbarList = [
     { title: 'Home', path: '/' },
     { title: 'Menu', path: '/menu' },
@@ -7,4 +5,4 @@ const NavbarList = [
     { title: 'Book Table', path: '/book' }
 ];
 
-export { menuCategories, NavbarList };
+export { NavbarList };
