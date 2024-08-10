@@ -9,6 +9,7 @@ import ProtectedRoutes from "../components/ProtectedRoutes";
 import EmailVerify from "../pages/auth/EmailVerify";
 import Dummy from "../pages/Dummy";
 import Cart from "../pages/Cart";
+import ConfirmEmailVerification from "../pages/auth/ConfirmEmailVerification";
 
 const authRoutes = [
     {
@@ -22,6 +23,10 @@ const authRoutes = [
     {
         path: "/email-verify",
         element: <EmailVerify />,
+    },
+    {
+        path: "/confirm/email/:userId/:code",
+        element: <ConfirmEmailVerification />,
     },
 ];
 

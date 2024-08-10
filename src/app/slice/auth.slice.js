@@ -38,7 +38,26 @@ export const authEmailVerify = createAsyncThunk('/user/auth/email-verify',
     async (data) => {
         try {
             const output = await API.post('/user/auth/email-verify', data);
-            console.log('output:- ', output);
+            const type = output.data.code === 200 ? 'success' : 'error';
+            if (output.status === 200) {
+                toastMessage(type, output.data.message);
+            }
+            return output.data;
+        } catch (error) {
+            toastMessage('error', error);
+            // throw new Error('some error occurred');
+        }
+    }
+)
+
+export const authConfirmEmailVerify = createAsyncThunk('/user/auth/confirm/email',
+    async (data) => {
+        try {
+            const output = await API.post('/user/auth/confirm/email', data);
+            const type = output.data.code === 200 ? 'success' : 'error';
+            if (output.status === 200) {
+                toastMessage(type, output.data.message);
+            }
             return output.data;
         } catch (error) {
             toastMessage('error', error);

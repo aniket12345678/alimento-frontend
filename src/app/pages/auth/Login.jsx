@@ -25,6 +25,9 @@ const Login = () => {
                     if (response.code === 200) {
                         navigate('/home');
                     }
+                    else if (response.code === 600) {
+                        navigate('/email-verify');
+                    }
                 }, 2000);
             });
         }

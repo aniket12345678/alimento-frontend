@@ -15,7 +15,7 @@ const signup = yup.object().shape({
 });
 
 const signin = yup.object().shape({
-    email: yup.string().required('Enter email address'),
+    email: yup.string().email('Invalid email').required('Enter email address'),
     password: yup.string()
         .min(8, 'Minimum 8 characters are required')
         .max(20, 'Maximum 20 characters are allowed')
@@ -23,11 +23,7 @@ const signin = yup.object().shape({
 });
 
 const emailVerify = yup.object().shape({
-    email: yup.string().required('Enter email address'),
-    password: yup.string()
-        .min(8, 'Minimum 8 characters are required')
-        .max(20, 'Maximum 20 characters are allowed')
-        .required('Enter password'),
+    email: yup.string().email('Invalid email').required('Enter email address'),
 });
 
 export const validationObj = {
