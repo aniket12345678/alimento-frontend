@@ -1,10 +1,11 @@
 import { useFormik } from 'formik';
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Col, Form, Row } from 'react-bootstrap'
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+
+import 'react-phone-number-input/style.css';
 
 import { authSignUp } from '../../slice/auth.slice';
 import AuthLayout from '../../components/AuthLayout';
