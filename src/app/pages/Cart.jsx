@@ -1,13 +1,22 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import CartLayout from '../components/CartLayout';
-import { Button } from 'react-bootstrap';
-import { removeCartItem } from '../redux/reducers';
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux'
+
+import CartLayout from '../components/CartLayout';
+import { removeCartItem } from '../redux/reducers';
+import { orderCreatePaymentIntent } from '../slice/order.slice';
+import StripeCheckout from '../components/stripe/StripeCheckout';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const Cart = () => {
     const { cart } = useSelector((x) => x.cartSlice);
     const dispatch = useDispatch();
+    const [clientSecretKey, setClientSecretKey] = useState('');
+    const [modalState, setModalState] = useState(false);
 
     const removeItem = (data) => {
         let storeCart = [...cart];
@@ -19,12 +28,51 @@ const Cart = () => {
         return cart.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
     }
 
+    const checkout = () => {
+        dispatch(orderCreatePaymentIntent({ totalAmount: cartTotalAmount() }))
+            .unwrap()
+            .then((result) => {
+                setClientSecretKey(result.clientSecret);
+                setModalState(true);
+                console.log('result:- ', result);
+            }).catch((err) => {
+                console.log('err:- ', err);
+            });
+    }
+
+    const changeModalState = (data) => {
+        setModalState(data);
+    }
+
     return (
         <div className="row">
             {
                 cart.length > 0 ?
                     <>
                         <div className="col-lg-8">
+                            <div className="card mb-3" >
+                                <div className="card-body">
+                                    <div className="d-flex justify-content-between">
+                                        <div className="d-flex flex-row align-items-center">
+                                            Item
+                                        </div>
+                                        <div className="d-flex flex-row align-items-center">
+                                            <div style={{ width: '50px' }}>
+                                                Qty
+                                            </div>
+                                            <div style={{ width: '80px' }}>
+                                                Price
+                                            </div>
+                                            <div style={{ width: '80px' }}>
+                                                Total Price
+                                            </div>
+                                            <div style={{ width: '80px' }}>
+                                                {/* <Button onClick={() => removeItem(index)}>remove</Button> */}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             {
                                 cart.map((data, index) => {
                                     const { item, _id, price, quantity } = data;
@@ -81,7 +129,7 @@ const Cart = () => {
                                     </div>
                                     <hr />
                                     <div className="d-flex justify-content-between">
-                                        <p className="mb-2">Shipping</p>
+                                        <p className="mb-2">Delivery charges</p>
                                         <p className="mb-2">$20.00</p>
                                     </div>
                                     <hr />
@@ -95,6 +143,7 @@ const Cart = () => {
                                             <Button
                                                 type="button"
                                                 variant='success'
+                                                onClick={checkout}
                                             >
                                                 Checkout
                                             </Button>
@@ -119,6 +168,17 @@ const Cart = () => {
                         </div>
                     </div>
             }
+
+            {clientSecretKey &&
+                <Elements stripe={stripePromise} options={{ clientSecret: clientSecretKey }}>
+                    <StripeCheckout
+                        clientSecretKey={clientSecretKey}
+                        modalState={modalState}
+                        changeModalState={changeModalState}
+                    />
+                </Elements>
+            }
+
 
         </div>
 

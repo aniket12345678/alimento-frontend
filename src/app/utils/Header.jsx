@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { logout } from '../redux/reducers';
 import { NavbarList } from '../config/config'
+import { Logout } from '@mui/icons-material';
 
 const Header = () => {
     const pathName = window.location.pathname;

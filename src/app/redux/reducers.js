@@ -2,6 +2,7 @@ import { combineReducers, createSlice } from "@reduxjs/toolkit";
 import { categoryFindAll } from "../slice/category.slice";
 import { authSignIn } from "../slice/auth.slice";
 import { itemFindAll } from "../slice/item.slice";
+import { orderCreatePaymentIntent } from "../slice/order.slice";
 
 const authSlice = createSlice({
     name: 'authSlice',
@@ -46,7 +47,7 @@ const categorySlice = createSlice({
     }
 });
 
-export const itemSlice = createSlice({
+const itemSlice = createSlice({
     name: 'itemSlice',
     initialState: {
         findAll: []
@@ -59,7 +60,7 @@ export const itemSlice = createSlice({
     }
 });
 
-export const cartSlice = createSlice({
+const cartSlice = createSlice({
     name: 'cartSlice',
     initialState: {
         cart: []
@@ -77,12 +78,28 @@ export const cartSlice = createSlice({
     }
 });
 
+const orderSlice = createSlice({
+    name: 'orderSlice',
+    initialState: {
+        findAll: []
+    },
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(orderCreatePaymentIntent.fulfilled, (state, action) => {
+            console.log('orderCreatePaymentIntent.fulfilled', action.payload);
+
+            // state.findAll = action.payload.data;
+        });
+    }
+});
+
 export const { logout } = authSlice.actions;
 export const { addItems, updateItems, removeCartItem } = cartSlice.actions;
 
 export const rootReducer = combineReducers({
     authSlice: authSlice.reducer,
-    categorySlice: categorySlice.reducer,
     itemSlice: itemSlice.reducer,
-    cartSlice: cartSlice.reducer
+    cartSlice: cartSlice.reducer,
+    orderSlice: orderSlice.reducer,
+    categorySlice: categorySlice.reducer,
 });

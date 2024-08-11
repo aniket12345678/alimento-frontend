@@ -1,8 +1,10 @@
+import { Button } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
+import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addItems, updateItems } from '../redux/reducers';
 import { itemFindAll } from '../slice/item.slice';
+import { addItems, updateItems } from '../redux/reducers';
 import { categoryFindAll } from '../slice/category.slice';
 
 const Menu = () => {
@@ -11,6 +13,8 @@ const Menu = () => {
     const { findAll: findAllCategory } = useSelector((x) => x.categorySlice);
     const { cart } = useSelector((x) => x.cartSlice);
 
+    const [loader, setLoader] = useState(false);
+    const [count, setCounter] = useState(3);
     const [selectedCategory, setSelectedCategory] = useState('all');
 
     useEffect(() => {
@@ -45,6 +49,14 @@ const Menu = () => {
         } else {
             dispatch(addItems({ ...data, quantity: 1 }));
         }
+    }
+
+    const viewMore = () => {
+        setLoader(true);
+        setTimeout(() => {
+            setCounter((prev) => prev + 3)
+            setLoader(false);
+        }, 1000);
     }
 
     return (
@@ -82,7 +94,7 @@ const Menu = () => {
                 <div className="filters-content">
                     <div className="row grid">
                         {
-                            findAllItem.map((details) => {
+                            findAllItem.filter((_, i) => i < count).map((details) => {
                                 const { item, price, _id } = details;
                                 return (
                                     <div className="col-sm-6 col-lg-4 all pizza">
@@ -139,11 +151,28 @@ const Menu = () => {
                         }
                     </div>
                 </div>
-                <div className="btn-box">
-                    <a href>
-                        View More
-                    </a>
-                </div>
+                {
+                    loader &&
+                    <div className='text-center'>
+                        <RotatingLines
+                            visible={true}
+                            height="96"
+                            width="96"
+                            color="grey"
+                            strokeWidth="5"
+                            animationDuration="1"
+                            ariaLabel="rotating-lines-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        />
+                    </div>
+                }
+                {
+                    count < findAllItem.length &&
+                    <div className="btn-box">
+                        <Button onClick={viewMore} disabled={loader}>View More</Button>
+                    </div>
+                }
             </div>
         </section>
 

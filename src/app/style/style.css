@@ -630,7 +630,7 @@ a:focus {
   margin-top: 45px;
 }
 
-.food_section .btn-box a {
+.food_section .btn-box button {
   display: inline-block;
   padding: 10px 55px;
   background-color: #ffbe33;
@@ -641,7 +641,7 @@ a:focus {
   border: none;
 }
 
-.food_section .btn-box a:hover {
+.food_section .btn-box button:hover {
   background-color: #e69c00;
 }
 
