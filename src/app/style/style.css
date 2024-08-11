@@ -12,9 +12,14 @@ body {
   background: orange;
   border-radius: 33px;
   padding: 3px 9px;
-  right: 99px;
-  top: 9px;
+  right: 83px;
+  top: 3px;
   font-size: 12px;
+}
+
+.qty-div {
+  border-radius: 10% !important;
+  padding: 0 !important;
 }
 
 /*---------------------------------- Authentication ----------------------------------*/
@@ -254,7 +259,7 @@ a:focus {
 }
 
 .user_option .cart_link svg {
-  width: 17px;
+  width: 24px;
   height: auto;
   fill: #ffffff;
   margin-bottom: 2px;

@@ -12,17 +12,6 @@ const StripeCheckout = (props) => {
     const elements = useElements();
 
     const handleSubmit = async () => {
-
-        alert('yo')
-
-        // if (!stripe || !elements) {
-        //     // Stripe.js has not yet loaded.
-        //     // Make sure to disable form submission until Stripe.js has loaded.
-        //     return;
-        // }
-
-        // setIsLoading(true);
-
         const data = await stripe.confirmPayment({
             elements,
             confirmParams: {
@@ -30,17 +19,6 @@ const StripeCheckout = (props) => {
                 return_url: `${window.location.origin}/completion`,
             },
         });
-
-        console.log('data:- ', data);
-
-
-        // if (error.type === "card_error" || error.type === "validation_error") {
-        //   setMessage(error.message);
-        // } else {
-        //   setMessage("An unexpected error occured.");
-        // }
-
-        // setIsLoading(false);
     }
 
     return (
@@ -54,11 +32,14 @@ const StripeCheckout = (props) => {
                 <Modal.Title>Payment</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <LinkAuthenticationElement id="link-authentication-element" />
+                <LinkAuthenticationElement
+                    id="link-authentication-element"
+                    // options={{ defaultValues: { email: 'aniketadak148@gmail.com' } }}
+                />
                 <PaymentElement />
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={handleSubmit}>Understood</Button>
+                <Button variant="primary" onClick={handleSubmit}>Pay</Button>
             </Modal.Footer>
         </Modal>
     )

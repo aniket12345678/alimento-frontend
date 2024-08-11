@@ -4,11 +4,12 @@ import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 
 import CartLayout from '../components/CartLayout';
-import { removeCartItem } from '../redux/reducers';
+import { removeCartItem, updateItems } from '../redux/reducers';
 import { orderCreatePaymentIntent } from '../slice/order.slice';
 import StripeCheckout from '../components/stripe/StripeCheckout';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import { Delete, ShoppingCart, Add, Remove } from '@mui/icons-material';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
@@ -44,6 +45,19 @@ const Cart = () => {
         setModalState(data);
     }
 
+    const changeQty = (data, type) => {
+        let storeCart = [...cart];
+        let presentItem = storeCart[data];
+        delete storeCart[data];
+        if (type === 'add') {
+            presentItem = { ...presentItem, quantity: presentItem.quantity + 1 };
+        } else {
+            presentItem = { ...presentItem, quantity: presentItem.quantity - 1 };
+        }
+        storeCart[data] = presentItem;
+        dispatch(updateItems(storeCart));
+    }
+
     return (
         <div className="row">
             {
@@ -66,9 +80,7 @@ const Cart = () => {
                                             <div style={{ width: '80px' }}>
                                                 Total Price
                                             </div>
-                                            <div style={{ width: '80px' }}>
-                                                {/* <Button onClick={() => removeItem(index)}>remove</Button> */}
-                                            </div>
+                                            <div style={{ width: '80px' }}></div>
                                         </div>
                                     </div>
                                 </div>
@@ -79,8 +91,8 @@ const Cart = () => {
                                     return (
                                         <div className="card mb-3" key={item + _id}>
                                             <div className="card-body">
-                                                <div className="d-flex justify-content-between">
-                                                    <div className="d-flex flex-row align-items-center">
+                                                <div className="d-flex">
+                                                    <div className="d-flex col-6 flex-row align-items-center">
                                                         <div>
                                                             <img
                                                                 src={`${process.env.REACT_APP_BASE_URL}/items/img/${_id}`}
@@ -97,11 +109,29 @@ const Cart = () => {
                                                             <h5>{item}</h5>
                                                         </div>
                                                     </div>
-                                                    <div className="d-flex flex-row align-items-center">
-                                                        <div style={{ width: '50px' }}>
+                                                    <div className="d-flex col-6 flex-row align-items-center">
+                                                        <div
+                                                            style={{ width: '90px' }}
+                                                            className="d-flex flex-row align-items-center"
+                                                        >
+                                                            <Button
+                                                                variant='light'
+                                                                className='btn-outline-success qty-div mx-2'
+                                                                onClick={() => changeQty(index, 'add')}
+                                                            >
+                                                                <Add />
+                                                            </Button>
                                                             <h5 className="fw-normal mb-0">
                                                                 {quantity}
                                                             </h5>
+                                                            <Button
+                                                                variant='light'
+                                                                className='btn-outline-success qty-div mx-2'
+                                                                onClick={() => changeQty(index, 'remove')}
+                                                                disabled={quantity < 2}
+                                                            >
+                                                                <Remove />
+                                                            </Button>
                                                         </div>
                                                         <div style={{ width: '80px' }}>
                                                             <h5 className="mb-0">${price}</h5>
@@ -110,7 +140,9 @@ const Cart = () => {
                                                             <h5 className="mb-0">${quantity * price}</h5>
                                                         </div>
                                                         <div style={{ width: '80px' }}>
-                                                            <Button onClick={() => removeItem(index)}>remove</Button>
+                                                            <Button variant='danger' onClick={() => removeItem(index)}>
+                                                                <Delete />
+                                                            </Button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -145,7 +177,7 @@ const Cart = () => {
                                                 variant='success'
                                                 onClick={checkout}
                                             >
-                                                Checkout
+                                                <ShoppingCart />Checkout
                                             </Button>
                                         </div>
                                         <div>

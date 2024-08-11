@@ -1,14 +1,15 @@
 import Book from "../pages/Book";
 import Home from "../pages/Home";
 import Menu from "../pages/Menu";
+import Cart from "../pages/Cart";
+import Dummy from "../pages/Dummy";
 import About from "../pages/About";
 import Login from "../pages/auth/Login";
+import ThankYou from "../pages/ThankYou";
 import Signup from "../pages/auth/Signup";
 import Layout from "../components/Layout";
-import ProtectedRoutes from "../components/ProtectedRoutes";
 import EmailVerify from "../pages/auth/EmailVerify";
-import Dummy from "../pages/Dummy";
-import Cart from "../pages/Cart";
+import ProtectedRoutes from "../components/ProtectedRoutes";
 import ConfirmEmailVerification from "../pages/auth/ConfirmEmailVerification";
 
 const authRoutes = [
@@ -57,6 +58,10 @@ const guardedRoutes = [
             {
                 path: "/cart",
                 element: <Layout Page={Cart} />,
+            },
+            {
+                path: "/completion",
+                element: <Layout Page={ThankYou} />,
             },
         ]
     },
