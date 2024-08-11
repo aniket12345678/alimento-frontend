@@ -12,7 +12,6 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Delete, ShoppingCart, Add, Remove } from '@mui/icons-material';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
-console.log('process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY:- ',process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 
 const Cart = () => {
